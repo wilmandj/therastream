@@ -24,7 +24,7 @@ chat = st.session_state.get("chat", None)
 if chat is None:
     st.warning("Please connect to OpenAI on the Connect page to access functionality.")
 else:
-    st.header("Analyse Drawing")
+    st.title("🎨 Analyze Drawing")
 
     # Step 1: Upload an image
     uploaded_file = st.file_uploader("Upload an image (e.g., jpg, png)", type=["jpg", "jpeg", "png"])
@@ -63,7 +63,6 @@ else:
                 )
                 
                 # Prepare AI request
-                # Note: currently not actually analysing the image itself, just the caption. Needs a url
                 ai_message = chat([
                     SystemMessage(content=analysis_prompt),
                     HumanMessage(content=f"Image Caption: {caption}\nImage Data: {img_str}")

@@ -16,7 +16,7 @@ chat = st.session_state.get("chat", None)
 if chat is None:
     st.warning("Please connect to OpenAI on the Connect page to access functionality.")
 else:
-    st.header("Create Book Content")
+    st.title("📚 Create Book Content")
 
     language_toggle = st.radio("Select Language", ("English", "German"), index=0)
     

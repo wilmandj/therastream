@@ -38,6 +38,3 @@ if language_toggle != st.session_state.language:
     st.session_state.language = language_toggle
 
 st.session_state.chat = None
-
-
-

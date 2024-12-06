@@ -35,7 +35,7 @@ def create_chat_instance(api_key, model="gpt-4o"):
         model=model
     )
 
-st.title("Connect to OpenAI")
+st.title("🔗 Connect to OpenAI")
 
 # 1. API Key
 home = os.environ["HOME"]
@@ -55,4 +55,3 @@ if api_key:
     with open(os.path.join(dir_keys, 'openai.key'), 'w') as f:
         f.write(f"OPENAI_API_KEY: {api_key}")
         st.success("API Key saved successfully!")
-        

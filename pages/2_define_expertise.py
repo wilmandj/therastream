@@ -17,7 +17,7 @@ chat = st.session_state.get("chat", None)
 if chat is None:
     st.warning("Please connect to OpenAI on the Connect page to access functionality.")
 else:
-    st.header("Therapist Expertise")
+    st.title("🧠 Define Therapist Expertise")
 
     # Language Toggle
     language_toggle = st.radio("Select Language", ("English", "German"), index=0)
