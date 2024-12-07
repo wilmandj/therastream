@@ -2,3 +2,4 @@ streamlit
 pillow
 langchain
 langchain-core
+streamlit-drawable-canvas
