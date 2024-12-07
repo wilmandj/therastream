@@ -9,6 +9,7 @@ Welcome to Therastream, a Streamlit-based application designed to assist with th
 - **Therapist Assistant**: Engage in therapeutic conversations with an AI therapist, with options to save, load, and reset interactions.
 - **Therapy Author**: Create book content or related material through conversations with an AI therapy author.
 - **Analyze Drawing**: Upload and analyze drawings, providing psychological insights based on the provided captions.
+- **Create Drawing**: A new feature allowing users to create and analyze drawings as part of therapeutic exploration.
 
 ## Getting Started
 
@@ -32,6 +33,12 @@ Install the required Python packages:
 pip install -r requirements.txt
 ```
 
+### Setting Up OpenAI API
+
+1. Visit the [OpenAI website](https://openai.com/) and sign up for an account if you haven't already.
+2. After logging in, navigate to the API section to generate a new API key.
+3. Store this API key securely as you'll need it to connect the Therastream application to OpenAI's services.
+
 ### Running the Application
 
 Run the Streamlit application:
@@ -47,3 +54,14 @@ streamlit run therastream_v2.py
 3. **Therapist Assistant**: Start a conversation with the AI therapist.
 4. **Therapy Author**: Engage with the AI to create therapeutic content.
 5. **Analyze Drawing**: Upload drawings and receive AI-generated insights.
+6. **Create Drawing**: Use the new feature to create drawings and explore psychological aspects.
+
+## Repository Structure
+
+- **therastream_v2.py**: Main entry point for the Streamlit application.
+- **content/**: Directory containing content files used within the application.
+- **experiments/**: Directory for experimental scripts and testing various features.
+- **requirements.txt**: List of Python dependencies required for the application.
+- **README.md**: Documentation for setting up and using the Therastream application.
+
+We hope Therastream assists you in your journey towards mental well-being and personal growth. Enjoy exploring the features and integrating them into your therapeutic practices!
