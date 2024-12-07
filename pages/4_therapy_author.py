@@ -5,7 +5,7 @@ This script enables users to engage with an AI therapy author to create book
 content or related material. It supports conversation management, including 
 saving, loading, and resetting interactions.
 """
-
+import os
 import streamlit as st
 import json
 from langchain.schema import SystemMessage, HumanMessage

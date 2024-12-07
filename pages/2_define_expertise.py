@@ -6,7 +6,7 @@ the AI therapist. It supports creating, improving, and extending therapist
 expertise prompts using AI responses. It includes functionality to save, load,
 and reset expertise data.
 """
-
+import os
 import streamlit as st
 import json
 from langchain.schema import SystemMessage, HumanMessage

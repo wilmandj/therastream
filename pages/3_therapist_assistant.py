@@ -5,7 +5,7 @@ This script facilitates conversation with an AI therapist. Users can input
 questions or follow-ups, and the AI therapist responds based on the configured 
 expertise. It includes options to save, load, and reset conversations.
 """
-
+import os
 import streamlit as st
 import json
 from langchain.schema import SystemMessage, HumanMessage
