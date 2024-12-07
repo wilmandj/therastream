@@ -89,6 +89,11 @@ else:
             try:
                 st.session_state.conversation["therapist"][current_language] = json.load(uploaded_file)
                 st.success("Therapist conversation loaded!")
+                for message in st.session_state.conversation["therapist"][current_language]:
+                    if message["role"] == "user":
+                        st.write(f"You: {message['content']}")
+                    elif message["role"] == "assistant":
+                        st.write(f"Therapist: {message['content']}")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 

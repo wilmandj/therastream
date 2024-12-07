@@ -23,8 +23,7 @@ else:
     st.title("🧠 Define Therapist Expertise")
 
     target_language = 'English' if st.session_state.language == "English" else 'Deutsch'
-    
-    # Ensure system_prompt is stored for both languages
+
     if 'system_prompt' not in st.session_state:
         st.session_state.system_prompt = {"English": "", "German": ""}
         
@@ -92,6 +91,7 @@ else:
                 data = json.load(uploaded_file)
                 st.session_state.system_prompt[st.session_state.language] = data.get("Expert_Knowledge", "")
                 st.success("Expert Knowledge loaded!")
+                st.write(f"Current Expert Knowledge: {st.session_state.system_prompt[st.session_state.language]}")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
