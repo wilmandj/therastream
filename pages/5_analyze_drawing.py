@@ -7,17 +7,18 @@ captions with system prompts for psychological analysis and displays AI
 responses.
 
 **Image Analysis:**
-   - The image analysis appears to only utilize captions, with the actual image data not being processed meaningfully. This is noted in the comments but should be addressed for complete functionality.
-
+   - The image analysis now saves images to a local directory and uses image URLs for processing.
 """
 
 import streamlit as st
 import os
 from PIL import Image
 from langchain.schema import SystemMessage, HumanMessage
-from langchain_core.messages import HumanMessage as HumanMessage_core
 import base64
 from io import BytesIO
+from utils.session_utils import initialize_session_state
+
+initialize_session_state()
 
 chat = st.session_state.get("chat", None)
 
@@ -26,6 +27,11 @@ if chat is None:
 else:
     st.title("🎨 Analyze Drawing")
 
+    # Create content directories
+    content_dir = "content"
+    images_dir = os.path.join(content_dir, "images")
+    os.makedirs(images_dir, exist_ok=True)
+
     # Step 1: Upload an image
     uploaded_file = st.file_uploader("Upload an image (e.g., jpg, png)", type=["jpg", "jpeg", "png"])
 
@@ -33,16 +39,12 @@ else:
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Drawing", use_column_width=True)
 
-        # Check and resize image if necessary
-        max_size = (512, 512)  # Define a maximum size for the model
-        if image.size[0] > max_size[0] or image.size[1] > max_size[1]:
-            image = image.resize(max_size, Image.LANCZOS)  # Use LANCZOS for high-quality downsampling
-            st.info(f"Image resized to {max_size} for processing.")
-        
-        # Convert image to base64 string
-        buffered = BytesIO()
-        image.save(buffered, format="JPEG")
-        img_str = base64.b64encode(buffered.getvalue()).decode()
+        # Save image to local directory
+        image_path = os.path.join(images_dir, uploaded_file.name)
+        image.save(image_path)
+
+        # Use image URL for analysis
+        image_url = f"/content/images/{uploaded_file.name}"
         
         # Step 2: Provide a caption/description
         caption = st.text_input("Provide a caption or description for the image:")
@@ -51,8 +53,7 @@ else:
         if st.button("Analyze Drawing"):
             if caption:
                 # Combine system prompts
-                language_toggle = st.radio("Select Language", ("English", "German"), index=0)
-                current_prompt = st.session_state.system_prompt[language_toggle]
+                current_prompt = st.session_state.system_prompt[st.session_state.language]
                 analysis_prompt = (
                     f"""{current_prompt} You are an expert in psychological analysis. 
                     Interpret the drawing as an expression of the subject's subconscious mind. 
@@ -65,7 +66,7 @@ else:
                 # Prepare AI request
                 ai_message = chat([
                     SystemMessage(content=analysis_prompt),
-                    HumanMessage(content=f"Image Caption: {caption}\nImage Data: {img_str}")
+                    HumanMessage(content=f"Image Caption: {caption}\nImage URL: {image_url}")
                 ])
                 
                 # Step 4: Display AI response

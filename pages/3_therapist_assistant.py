@@ -10,6 +10,9 @@ import streamlit as st
 import json
 from langchain.schema import SystemMessage, HumanMessage
 from utils.translation_utils import translate_conversation
+from utils.session_utils import initialize_session_state
+
+initialize_session_state()
 
 chat = st.session_state.get("chat", None)
 
@@ -18,12 +21,10 @@ if chat is None:
 else:
     st.title("💬 Therapist Assistant")
 
-    language_toggle = st.radio("Select Language", ("English", "German"), index=0)
-    
     if "conversation" not in st.session_state:
         st.session_state.conversation = {"therapist": {"English": [], "German": []}}
 
-    current_language = language_toggle
+    current_language = st.session_state.language
     other_language = "German" if current_language == "English" else "English"
     
     if not st.session_state.conversation["therapist"][current_language]:
@@ -69,7 +70,8 @@ else:
         filename = st.text_input("Enter filename for therapist conversation:")
         if st.button("Save Therapist Conversation"):
             if filename:
-                filepath = f"{filename}_therapist_conversation.json"
+                filepath = os.path.join("content", "therapist_conversations", f"{filename}_therapist_conversation.json")
+                os.makedirs(os.path.dirname(filepath), exist_ok=True)
                 with open(filepath, "w") as f:
                     json.dump(st.session_state.conversation["therapist"][current_language], f)
                 st.success(f"Therapist conversation saved to {filepath}!")

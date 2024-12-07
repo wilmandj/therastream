@@ -10,6 +10,7 @@ import streamlit as st
 import os
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage
+from utils.session_utils import initialize_session_state
 
 # Function to get OpenAI key from file:
 def getkey(keyfile, dir_keys):
@@ -37,6 +38,8 @@ def create_chat_instance(api_key, model="gpt-4o"):
 
 st.title("🔗 Connect to OpenAI")
 
+initialize_session_state()
+
 # 1. API Key
 home = os.environ["HOME"]
 dir_keys = home + '/keys'
@@ -45,11 +48,14 @@ getkey("openai", dir_keys)
     
 api_key = st.text_input("Enter OpenAI API Key", os.environ.get("OPENAI_API_KEY", ""), type="password")
 
+model_options = ["gpt-4o", "gpt-3.5-turbo", "gpt-3", "gpt-4"]
+selected_model = st.selectbox("Select OpenAI Model", model_options, index=0)
+
 if api_key:
     initialize_openai(api_key)
-    chat = create_chat_instance(api_key)
+    chat = create_chat_instance(api_key, model=selected_model)
     st.session_state.chat = chat
-    st.success("Connected to OpenAI!")
+    st.success("Connected to OpenAI with model: " + selected_model)
 
     # Save the new API key to the default key file
     with open(os.path.join(dir_keys, 'openai.key'), 'w') as f:
