@@ -13,9 +13,9 @@ responses.
 import streamlit as st
 import os
 from PIL import Image
-from langchain.schema import SystemMessage, HumanMessage
 import base64
 from io import BytesIO
+from openai import OpenAI  # Updated import
 from utils.session_utils import initialize_session_state
 
 initialize_session_state()
@@ -27,49 +27,69 @@ if chat is None:
 else:
     st.title("🎨 Analyze Drawing")
 
-    # Create content directories
-    content_dir = "content"
-    images_dir = os.path.join(content_dir, "images")
-    os.makedirs(images_dir, exist_ok=True)
-
     # Step 1: Upload an image
     uploaded_file = st.file_uploader("Upload an image (e.g., jpg, png)", type=["jpg", "jpeg", "png"])
 
+    # Step 2: Set maximum dimension for resizing
+    max_dimension = st.number_input("Set maximum dimension for resizing (default is 512)", min_value=1, value=512)
+
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
+        
+        # Resize image while maintaining aspect ratio
+        max_size = (max_dimension, max_dimension)
+        image.thumbnail(max_size, Image.LANCZOS)  # Use LANCZOS instead of ANTIALIAS
+        
         st.image(image, caption="Uploaded Drawing", use_column_width=True)
 
-        # Save image to local directory
-        image_path = os.path.join(images_dir, uploaded_file.name)
-        image.save(image_path)
+        # Convert image to base64
+        buffered = BytesIO()
+        image.save(buffered, format="JPEG")
+        base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
-        # Use image URL for analysis
-        image_url = f"/content/images/{uploaded_file.name}"
-        
         # Step 2: Provide a caption/description
         caption = st.text_input("Provide a caption or description for the image:")
         
         # Step 3: Analyze the image and caption
         if st.button("Analyze Drawing"):
             if caption:
-                # Combine system prompts
-                current_prompt = st.session_state.system_prompt[st.session_state.language]
-                analysis_prompt = (
-                    f"""{current_prompt} You are an expert in psychological analysis. 
-                    Interpret the drawing as an expression of the subject's subconscious mind. 
-                    Analyze the drawing and caption to provide insights into the subject's state of mind.
-                    Make sure to pay attention to - and highlight - elements in the drawing which emphasize 
-                    and which go beyond the content of the caption.
-                    """
-                )
-                
-                # Prepare AI request
-                ai_message = chat([
-                    SystemMessage(content=analysis_prompt),
-                    HumanMessage(content=f"Image Caption: {caption}\nImage URL: {image_url}")
-                ])
-                
-                # Step 4: Display AI response
-                st.write(f"AI Analysis: {ai_message.content}")
+                # Prepare the request to OpenAI API
+                try:
+                    # Initialize OpenAI client
+                    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+                    # Combine system prompts
+                    current_prompt = st.session_state.system_prompt[st.session_state.language]
+                    analysis_prompt = (
+                        f"""{current_prompt} You are an expert in psychological analysis. 
+                        Interpret the drawing as an expression of the subject's subconscious mind. 
+                        Analyze the drawing and caption to provide insights into the subject's state of mind.
+                        Make sure to pay attention to - and highlight - elements in the drawing which emphasize 
+                        and which go beyond the content of the caption.
+                        """
+                    )
+                    
+                    # Use the updated OpenAI client method
+                    response = client.chat.completions.create(
+                        model="gpt-4o",
+                        messages=[
+                            {
+                                "role": "system",
+                                "content": analysis_prompt
+                            },
+                            {
+                                "role": "user",
+                                "content": [
+                                    {"type": "text", "text": f"Analyze this drawing and caption: {caption}"},
+                                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
+                                ]
+                            }
+                        ]
+                    )
+                    
+                    # Step 4: Display AI response
+                    st.write(f"AI Analysis: {response.choices[0].message.content}")
+                except Exception as e:
+                    st.error(f"An error occurred during the analysis: {e}")
             else:
                 st.warning("Please provide a caption for the image.")
