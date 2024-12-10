@@ -15,7 +15,7 @@ Welcome to Therastream, a Streamlit-based application designed to assist with th
 
 ### Prerequisites
 
-- Streamlit
+- Python ( e.g. Anaconda or an alternative installation )
 - OpenAI API Key
 
 ### Installation
@@ -27,7 +27,7 @@ git clone <repository-url>
 cd therastream
 ```
 
-Install the required Python packages:
+Install the required Python packages with pip ( includes streamlit ):
 
 ```bash
 pip install -r requirements.txt
