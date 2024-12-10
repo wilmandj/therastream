@@ -18,7 +18,7 @@ Welcome to Therastream, a Streamlit-based application designed to assist with th
 - Python ( e.g. Anaconda or an alternative installation )
 - OpenAI API Key
 
-### Installation
+### Installation from a linux / os terminal:
 
 Clone the repository and navigate to the project directory:
 
