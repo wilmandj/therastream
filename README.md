@@ -59,7 +59,7 @@ streamlit run therastream_v2.py
 ## Repository Structure
 
 - **therastream_v2.py**: Main entry point for the Streamlit application.
-- **Pages/**: Directory containing the individual pages for the Streamlit application.
+- **pages/**: Directory containing the individual pages for the Streamlit application.
 - **content/**: Directory containing content files used within the application.
 - **experiments/**: Directory for experimental scripts and testing various features.
 - **requirements.txt**: List of Python dependencies required for the application.
