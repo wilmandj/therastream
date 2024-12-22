@@ -9,7 +9,7 @@ Welcome to Therastream, a Streamlit-based application designed to assist with th
 - **Therapist Assistant**: Engage in therapeutic conversations with an AI therapist, with options to save, load, and reset interactions.
 - **Therapy Author**: Create book content or related material through conversations with an AI therapy author.
 - **Create Drawing**: A new feature allowing users to create and analyze drawings as part of therapeutic exploration. To analyze, first save, then re-load under 'Analyze Drawing'
-- - **Analyze Drawing**: Upload and analyze drawings, providing psychological insights based on the provided captions.
+- **Analyze Drawing**: Upload and analyze drawings, providing psychological insights based on the provided captions.
 
 
 ## Getting Started
