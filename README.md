@@ -8,8 +8,9 @@ Welcome to Therastream, a Streamlit-based application designed to assist with th
 - **Define Expertise**: Customize the AI therapist's expertise by adding focus areas, improving responses, and saving configurations.
 - **Therapist Assistant**: Engage in therapeutic conversations with an AI therapist, with options to save, load, and reset interactions.
 - **Therapy Author**: Create book content or related material through conversations with an AI therapy author.
-- **Analyze Drawing**: Upload and analyze drawings, providing psychological insights based on the provided captions.
-- **Create Drawing**: A new feature allowing users to create and analyze drawings as part of therapeutic exploration.
+- **Create Drawing**: A new feature allowing users to create and analyze drawings as part of therapeutic exploration. To analyze, first save, then re-load under 'Analyze Drawing'
+- - **Analyze Drawing**: Upload and analyze drawings, providing psychological insights based on the provided captions.
+
 
 ## Getting Started
 
@@ -53,8 +54,8 @@ streamlit run therastream_v2.py
 2. **Define Expertise**: Customize AI expertise settings as needed.
 3. **Therapist Assistant**: Start a conversation with the AI therapist.
 4. **Therapy Author**: Engage with the AI to create therapeutic content.
-5. **Analyze Drawing**: Upload drawings and receive AI-generated insights.
-6. **Create Drawing**: Use the new feature to create drawings and explore psychological aspects.
+5. **Create Drawing**: Use the new feature to create drawings and explore psychological aspects.
+6. **Analyze Drawing**: Upload drawings and receive AI-generated insights.
 
 ## Repository Structure
 
