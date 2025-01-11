@@ -13,7 +13,7 @@ from langchain.schema import SystemMessage, HumanMessage
 from utils.session_utils import initialize_session_state
 
 # Function to get OpenAI key from file:
-def getkey(keyfile, dir_keys):
+def getkey(keyfile, dir_keys, default_envar=None):
     try:
         with open(os.path.join(dir_keys, keyfile + '.key'), 'r') as f:
             lines = f.readlines()
@@ -23,6 +23,7 @@ def getkey(keyfile, dir_keys):
                     value = value.strip()
                     os.environ[envvar] = value
     except:
+        envar = default_envar
         os.environ[envvar] = ""
 
 # Function to initialize OpenAI API
@@ -44,7 +45,7 @@ initialize_session_state()
 home = os.environ["HOME"]
 dir_keys = home + '/keys'
 os.makedirs(dir_keys, exist_ok=True)
-getkey("openai", dir_keys)
+getkey("openai", dir_keys, default_envar="OPENAI_API_KEY")
     
 api_key = st.text_input("Enter OpenAI API Key", os.environ.get("OPENAI_API_KEY", ""), type="password")
 
