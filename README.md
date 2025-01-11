@@ -67,3 +67,9 @@ streamlit run therastream_v2.py
 - **README.md**: Documentation for setting up and using the Therastream application.
 
 We hope Therastream assists you in your journey towards mental well-being and personal growth. Enjoy exploring the features and integrating them into your therapeutic practices!
+
+### Experimental Online Deployment
+
+Therastream is currently deployed experimentally on the Streamlit Cloud Service as a Private App. 
+The URL is: 
+[https://therastreamv0.streamlit.app/|https://therastreamv0.streamlit.app/]
