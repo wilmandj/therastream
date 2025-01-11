@@ -45,13 +45,15 @@ else:
         st.markdown("## Ask Question: ")
     else:
         st.markdown("## Ask Further Question: ")
-    chat_input = st.text_input("Your Message", key='chat_input')
-    
-    if st.button("Send"):
-        if chat_input:
-            st.session_state.conversation["therapist"][st.session_state.language].append({ "role": "user", "content": chat_input })
-            continue_conversation(chat,"therapist")
-            display_conversation(conversation_text_widget, "therapist", "AI Therapist")
+
+    with st.form(key='chat_input'):
+        chat_input = st.text_input("Your Message")
+        submit_button = st.form_submit_button("Submit")
+        
+    if submit_button:
+        st.session_state.conversation["therapist"][st.session_state.language].append({ "role": "user", "content": chat_input })
+        continue_conversation(chat,"therapist")
+        display_conversation(conversation_text_widget, "therapist", "AI Therapist")
             
 #    for message in current_conversation:
 #        if message["role"] == "user":
