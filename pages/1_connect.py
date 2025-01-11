@@ -23,7 +23,7 @@ def getkey(keyfile, dir_keys, default_envar=None):
                     value = value.strip()
                     os.environ[envvar] = value
     except:
-        envar = default_envar
+        envvar = default_envar
         os.environ[envvar] = ""
 
 # Function to initialize OpenAI API
