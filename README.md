@@ -72,4 +72,4 @@ We hope Therastream assists you in your journey towards mental well-being and pe
 
 Therastream is currently deployed experimentally on the Streamlit Cloud Service as a Private App. 
 The URL is: 
-[https://therastreamv0.streamlit.app/|https://therastreamv0.streamlit.app/]
+[https://therastreamv0.streamlit.app/](https://therastreamv0.streamlit.app/)
