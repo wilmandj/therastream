@@ -4,3 +4,4 @@ langchain
 langchain-core
 langchain-community
 streamlit-drawable-canvas
+openai
