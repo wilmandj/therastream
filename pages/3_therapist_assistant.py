@@ -10,7 +10,7 @@ import streamlit as st
 import json
 from langchain.schema import SystemMessage, HumanMessage
 from utils.translation_utils import translate_conversation
-from utils.session_utils import initialize_session_state
+from utils.session_utils import *
 
 initialize_session_state()
 
@@ -35,34 +35,52 @@ else:
 
     current_conversation = st.session_state.conversation["therapist"][current_language]
 
-    for message in current_conversation:
-        if message["role"] == "user":
-            st.write(f"You: {message['content']}")
-        elif message["role"] == "assistant":
-            st.write(f"Therapist: {message['content']}")
+    # Display existing conversation
+    st.markdown("#### _Conversation_")
+    conversation_text_widget = st.empty()
+    display_conversation(conversation_text_widget, "therapist", "AI Therapist")
+    
+    # Input for new messages
+    if len( [ msg for msg in st.session_state.conversation["therapist"][st.session_state.language] if msg["role"] == "assistant" ] ) == 0:
+        st.markdown("## Ask Question: ")
+    else:
+        st.markdown("## Ask Further Question: ")
+    chat_input = st.text_input("Your Message", key='chat_input')
+    
+    if st.button("Send"):
+        if chat_input:
+            st.session_state.conversation["therapist"][st.session_state.language].append({ "role": "user", "content": chat_input })
+            continue_conversation(chat,"therapist")
+            display_conversation(conversation_text_widget, "therapist", "AI Therapist")
+            
+#    for message in current_conversation:
+#        if message["role"] == "user":
+#            st.write(f"You: {message['content']}")
+#        elif message["role"] == "assistant":
+#            st.write(f"Therapist: {message['content']}")
 
-    question = st.text_input("Your question or follow-up for the AI Therapist:")
+#    question = st.text_input("Your question or follow-up for the AI Therapist:")
 
-    if st.button("Ask") and question:
-        if not current_conversation:
-            st.session_state.conversation["therapist"][current_language].append(
-                {"role": "system", "content": st.session_state.system_prompt[current_language]}
-            )
+#    if st.button("Ask") and question:
+#        if not current_conversation:
+#            st.session_state.conversation["therapist"][current_language].append(
+#                {"role": "system", "content": st.session_state.system_prompt[current_language]}
+#            )
 
-        st.session_state.conversation["therapist"][current_language].append(
-            {"role": "user", "content": question}
-        )
+#        st.session_state.conversation["therapist"][current_language].append(
+#            {"role": "user", "content": question}
+#        )
 
-        ai_message = chat([
-            SystemMessage(content=st.session_state.system_prompt[current_language]),
-            HumanMessage(content=question)
-        ])
+#        ai_message = chat([
+#            SystemMessage(content=st.session_state.system_prompt[current_language]),
+#            HumanMessage(content=question)
+#        ])
         
-        st.session_state.conversation["therapist"][current_language].append(
-            {"role": "assistant", "content": ai_message.content}
-        )
+#        st.session_state.conversation["therapist"][current_language].append(
+#            {"role": "assistant", "content": ai_message.content}
+#        )
 
-        st.write(f"Therapist: {ai_message.content}")
+#        st.write(f"Therapist: {ai_message.content}")
 
     col1, col2, col3 = st.columns(3)
 
@@ -99,6 +117,6 @@ else:
 
     with col3:
         if st.button("Reset Conversation"):
-            if st.checkbox("Confirm reset"):
-                st.session_state.conversation["therapist"][current_language] = []
-                st.success("Conversation reset successfully.")
+            st.session_state.conversation["therapist"][st.session_state.language] = []
+            conversation_text_widget.write("")
+            st.success("Conversation reset successfully.")

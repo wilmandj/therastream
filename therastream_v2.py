@@ -9,7 +9,7 @@ and displays a welcome message on the home page.
 
 import streamlit as st
 import os
-from utils.session_utils import initialize_session_state
+from utils.session_utils import *
 
 st.set_page_config(
     page_title="Therastream Home Page",
@@ -24,6 +24,8 @@ st.write("# Welcome to Therastream, the Application to assist your therapy needs
 
 st.sidebar.success("Select an option above.")
 
-st.sidebar.radio("Select Language", ("English", "German"), index=0, key='language')
+language_toggle = st.sidebar.radio("Select Language", ("English", "German"), index=0, key='language')
+if language_toggle != st.session_state.language:
+    st.session_state.language = language_toggle
 
 st.session_state.chat = None
