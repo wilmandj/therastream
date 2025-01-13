@@ -78,36 +78,30 @@ else:
                     mime="application/json",
                 )
                 st.success("Click the download button to save the conversation to your local machine!")
-    
-        #filename = st.text_input("Enter filename for therapist conversation:")
-        #if st.button("Save Therapist Conversation"):
-        #    if filename:
-        #        filepath = os.path.join("content", "therapist_conversations", f"{filename}_therapist_conversation.json")
-        #        os.makedirs(os.path.dirname(filepath), exist_ok=True)
-        #        with open(filepath, "w") as f:
-        #            json.dump(st.session_state.conversation[page][current_language], f)
-        #        st.success(f"Therapist conversation saved to {filepath}!")
-        
-        #st.download_button(
-        #    label="Download Therapist Conversation",
-        #    data=json.dumps(st.session_state.conversation[page][current_language]),
-        #    file_name="therapist_conversation.json",
-        #    mime="application/json",
-        #)
 
     with col2:
         uploaded_file = st.file_uploader("Choose a file to load therapist conversation", type="json")
         if uploaded_file is not None:
             try:
+                # Clear the existing conversation and load the new one
                 st.session_state.conversation[page][current_language] = json.load(uploaded_file)
                 st.success("Therapist conversation loaded!")
-                for message in st.session_state.conversation[page][current_language]:
-                    if message["role"] == "user":
-                        st.write(f"You: {message['content']}")
-                    elif message["role"] == "assistant":
-                        st.write(f"Therapist: {message['content']}")
+                # Update the displayed conversation
+                conversation_text_widget.write("")
+                display_conversation(conversation_text_widget, page, "AI Therapist")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
+            
+            #try:
+            #    st.session_state.conversation[page][current_language] = json.load(uploaded_file)
+            #    st.success("Therapist conversation loaded!")
+            #    for message in st.session_state.conversation[page][current_language]:
+            #        if message["role"] == "user":
+            #            st.write(f"You: {message['content']}")
+            #        elif message["role"] == "assistant":
+            #            st.write(f"Therapist: {message['content']}")
+            #except Exception as e:
+            #    st.error(f"An error occurred: {e}")
 
     with col3:
         if st.button("Reset Conversation"):
