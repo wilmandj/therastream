@@ -68,7 +68,7 @@ else:
                 st.download_button(
                     label="Download Therapist Conversation",
                     data=json.dumps(st.session_state.conversation[page][current_language]),
-                    file_name=filepath #f"{filename}_therapist_conversation.json",
+                    file_name=filepath, #f"{filename}_therapist_conversation.json",
                     mime="application/json",
                 )
                 st.success(f"Therapist conversation is ready for download.")
