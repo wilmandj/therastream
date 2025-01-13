@@ -66,15 +66,12 @@ else:
             if filename:
                 # Prepare the content for download
                 conversation_json = json.dumps(st.session_state.conversation[page][current_language])
-                
                 filepath = os.path.join("content", "therapist_conversations", f"{filename}_therapist_conversation.json")
-
                 # Use st.download_button to let users download the prepared file
                 st.download_button(
                     label="Download Therapist Conversation",
                     data=conversation_json,
                     file_name=filepath,
-                    #file_name=f"{filename}_therapist_conversation.json",
                     mime="application/json",
                 )
                 st.success("Click the download button to save the conversation to your local machine!")
@@ -91,17 +88,6 @@ else:
                 display_conversation(conversation_text_widget, page, "AI Therapist")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
-            
-            #try:
-            #    st.session_state.conversation[page][current_language] = json.load(uploaded_file)
-            #    st.success("Therapist conversation loaded!")
-            #    for message in st.session_state.conversation[page][current_language]:
-            #        if message["role"] == "user":
-            #            st.write(f"You: {message['content']}")
-            #        elif message["role"] == "assistant":
-            #            st.write(f"Therapist: {message['content']}")
-            #except Exception as e:
-            #    st.error(f"An error occurred: {e}")
 
     with col3:
         if st.button("Reset Conversation"):
