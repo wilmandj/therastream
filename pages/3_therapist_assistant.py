@@ -60,20 +60,25 @@ else:
     col1, col2, col3 = st.columns(3)
 
     with col1:
+
         filename = st.text_input("Enter filename for therapist conversation:")
-        if st.button("Prepare for Download"):
+        if st.button("Save Therapist Conversation"):
             if filename:
-                # Use the download button to save the file to user's local system
+                # Prepare the content for download
+                conversation_json = json.dumps(st.session_state.conversation[page][current_language])
+                
                 filepath = os.path.join("content", "therapist_conversations", f"{filename}_therapist_conversation.json")
+
+                # Use st.download_button to let users download the prepared file
                 st.download_button(
                     label="Download Therapist Conversation",
-                    data=json.dumps(st.session_state.conversation[page][current_language]),
-                    file_name=filepath, #f"{filename}_therapist_conversation.json",
+                    data=conversation_json,
+                    file_name=filepath,
+                    #file_name=f"{filename}_therapist_conversation.json",
                     mime="application/json",
                 )
-                st.success(f"Therapist conversation is ready for download.")
-
-        
+                st.success("Click the download button to save the conversation to your local machine!")
+    
         #filename = st.text_input("Enter filename for therapist conversation:")
         #if st.button("Save Therapist Conversation"):
         #    if filename:
