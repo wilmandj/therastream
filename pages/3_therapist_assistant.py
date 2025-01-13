@@ -61,20 +61,34 @@ else:
 
     with col1:
         filename = st.text_input("Enter filename for therapist conversation:")
-        if st.button("Save Therapist Conversation"):
+        if st.button("Prepare for Download"):
             if filename:
+                # Use the download button to save the file to user's local system
                 filepath = os.path.join("content", "therapist_conversations", f"{filename}_therapist_conversation.json")
-                os.makedirs(os.path.dirname(filepath), exist_ok=True)
-                with open(filepath, "w") as f:
-                    json.dump(st.session_state.conversation[page][current_language], f)
-                st.success(f"Therapist conversation saved to {filepath}!")
+                st.download_button(
+                    label="Download Therapist Conversation",
+                    data=json.dumps(st.session_state.conversation[page][current_language]),
+                    file_name=filepath #f"{filename}_therapist_conversation.json",
+                    mime="application/json",
+                )
+                st.success(f"Therapist conversation is ready for download.")
+
         
-        st.download_button(
-            label="Download Therapist Conversation",
-            data=json.dumps(st.session_state.conversation[page][current_language]),
-            file_name="therapist_conversation.json",
-            mime="application/json",
-        )
+        #filename = st.text_input("Enter filename for therapist conversation:")
+        #if st.button("Save Therapist Conversation"):
+        #    if filename:
+        #        filepath = os.path.join("content", "therapist_conversations", f"{filename}_therapist_conversation.json")
+        #        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        #        with open(filepath, "w") as f:
+        #            json.dump(st.session_state.conversation[page][current_language], f)
+        #        st.success(f"Therapist conversation saved to {filepath}!")
+        
+        #st.download_button(
+        #    label="Download Therapist Conversation",
+        #    data=json.dumps(st.session_state.conversation[page][current_language]),
+        #    file_name="therapist_conversation.json",
+        #    mime="application/json",
+        #)
 
     with col2:
         uploaded_file = st.file_uploader("Choose a file to load therapist conversation", type="json")
