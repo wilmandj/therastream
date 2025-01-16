@@ -14,14 +14,6 @@ Welcome to Therastream, a Streamlit-based application designed to assist with th
 
 ## Getting Started
 
-
-### Setting Up OpenAI API
-
-1. Visit the [OpenAI website](https://openai.com/) and sign up for an account if you haven't already.
-2. After logging in, navigate to the API section to generate a new API key.
-3. Store this API key securely as you'll need it to connect the Therastream application to OpenAI's services.
-4. When working with the Browser application ( hosted in Streamlit Cloud ) you will benefit from allowing your browser to store your OpenAI API key. In future it will be remembered.
-
 ### Experimental Online Deployment
 
 Therastream is currently deployed experimentally on the Streamlit Cloud Service as a Private App. 
@@ -31,6 +23,13 @@ The URL is:
 ### Prerequisites
 
 - OpenAI API Key
+
+### Setting Up OpenAI API
+
+1. Visit the [OpenAI website](https://openai.com/) and sign up for an account if you haven't already.
+2. After logging in, navigate to the API section to generate a new API key.
+3. Store this API key securely as you'll need it to connect the Therastream application to OpenAI's services.
+4. When working with the Browser application ( hosted in Streamlit Cloud ) you will benefit from allowing your browser to store your OpenAI API key. In future it will be remembered.
 
 ### Usage
 
