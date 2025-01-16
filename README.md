@@ -29,13 +29,13 @@ The URL is:
 1. Visit the [OpenAI Developer Platform Website](https://platform.openai.com/docs/overview) and sign up for an account if you haven't already.
 2. You will need to put some credit on your account. Do not worry, use of the API is not expensive and you will get alot for your money ( much more than via OpenAI's own interface which has higher cost ).
 3. You can later see your credit via [this link](https://platform.openai.com/settings/organization/usage).
-4. After logging in, navigate to the API section to generate a new API key.
+4. After logging in, navigate to the [API section](https://platform.openai.com/settings/organization/api-keys) to generate a new API key ( *Create* *new* *Secret* *Key* ).
 5. Store this API key securely as you'll need it to connect the Therastream application to OpenAI's services.
 6. When working with the Browser application ( hosted in Streamlit Cloud ) you will benefit from allowing your browser to store your OpenAI API key. In future it will be remembered.
 
 ### Usage
 
-1. **Connect to OpenAI**: Enter your API key to establish a connection to the OpenAI Large Language Model.
+1. **Connect to OpenAI**: Enter your API key to establish a connection to the OpenAI Large Language Model. You can also switch between models. Note that to analyze drawings you will need one of the models ending with **o**, e.g. the **gpt-4o** model.
 2. **Define Expertise**: Customize AI expertise. The selected expertise determines the expertise of your AI. You can choose to define your own expertise with the aid of the AI, or to load pre-existing expertise ( either prepared expertise or from your own saved files ).
 3. **Therapist Assistant**: Start a conversation with the AI therapist.
 4. **Therapy Author**: Engage with the AI to create therapeutic content.
