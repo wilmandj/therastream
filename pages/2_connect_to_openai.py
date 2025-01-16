@@ -41,6 +41,10 @@ st.title("🔗 Connect to OpenAI")
 
 initialize_session_state()
 
+language_toggle = st.sidebar.selectbox("Select Language", ("English", "German"), index=(st.session_state.language!='English'), key='language')
+if language_toggle != st.session_state.language:
+    st.session_state.language = language_toggle
+    
 # 1. API Key
 home = os.environ["HOME"]
 dir_keys = home + '/keys'

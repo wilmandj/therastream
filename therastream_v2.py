@@ -23,8 +23,9 @@ st.title("Therastream")
 st.write("# Welcome to Therastream, the Application to assist your therapy needs! 🧘")
 
 st.sidebar.success("Select an option above.")
+    
+language_toggle = st.sidebar.selectbox("Select Language", ("English", "German"), index=(st.session_state.language!='English'), key='language')
 
-language_toggle = st.sidebar.radio("Select Language", ("English", "German"), index=0, key='language')
 if language_toggle != st.session_state.language:
     st.session_state.language = language_toggle
 

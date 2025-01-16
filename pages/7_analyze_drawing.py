@@ -20,6 +20,10 @@ from utils.session_utils import initialize_session_state
 
 initialize_session_state()
 
+language_toggle = st.sidebar.selectbox("Select Language", ("English", "German"), index=(st.session_state.language!='English'), key='language')
+if language_toggle != st.session_state.language:
+    st.session_state.language = language_toggle
+
 chat = st.session_state.get("chat", None)
 
 if chat is None:

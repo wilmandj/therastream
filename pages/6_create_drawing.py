@@ -7,6 +7,10 @@ import io
 # Set up the page configuration
 st.set_page_config(page_title="Create Drawing", page_icon="🎨")
 
+language_toggle = st.sidebar.selectbox("Select Language", ("English", "German"), index=(st.session_state.language!='English'), key='language')
+if language_toggle != st.session_state.language:
+    st.session_state.language = language_toggle
+
 st.title("Create and Save Your Drawing")
 
 # Create a sidebar for the drawing tools
