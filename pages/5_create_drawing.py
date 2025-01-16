@@ -30,21 +30,24 @@ canvas_result = st_canvas(
     key="canvas",
 )
 
-# Create a directory to save images if it doesn't exist
-image_dir = "content/images"
-if not os.path.exists(image_dir):
-    os.makedirs(image_dir)
-
 # Save the drawing as an image file
-if st.button("Save Drawing"):
-    if canvas_result.image_data is not None:
-        # Convert the drawing to an image
-        image = Image.fromarray(canvas_result.image_data)
-        # Save the image to the specified directory
-        image_path = os.path.join(image_dir, "drawing.png")
-        image.save(image_path)
-        st.success(f"Drawing saved as {image_path}")
-    else:
-        st.error("No drawing to save!")
+filename = st.text_input("Enter filename for image:")
+if canvas_result.image_data is not None and filename:
+    # Convert the drawing to an image
+    image = Image.fromarray(canvas_result.image_data)
+    buffer = io.BytesIO()
+    image.save(buffer,format="PNG")
+    byte_data = buffer.getvalue()
+    filepath = os.path.join("content", "images", filename) +  '.png'
+    # Use st.download_button to let users download the prepared file
+    st.download_button(
+        label="Download Image",
+        data=byte_data,
+        file_name=filepath,
+        mime="application/json",
+    )
+    st.success("Click the download button to save the image to your local machine!")
+else:
+    st.error("No drawing to save!")
 
-st.write("Use the tools in the sidebar to create your drawing. When you're ready, click 'Save Drawing' to save your artwork.")
+st.write("Use the tools in the sidebar to create your drawing. When you're ready, click 'Download Image' to save your artwork.")

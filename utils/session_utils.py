@@ -48,5 +48,3 @@ def continue_conversation(chat, page):
             return
     ai_response = chat(messages_langchain)
     st.session_state.conversation[page][st.session_state.language].append( {"role": "assistant", "content": ai_response.content } )
-
-    

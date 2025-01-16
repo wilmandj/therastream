@@ -13,6 +13,10 @@ from langchain.schema import SystemMessage, HumanMessage
 from utils.translation_utils import translate_with_openai
 from utils.session_utils import initialize_session_state
 
+# Function to get list of JSON files from the specified directory
+def get_expert_files(directory):
+    return [os.path.splitext(os.path.basename(f))[0] for f in os.listdir(directory) if f.endswith('.json')]
+
 initialize_session_state()
 
 chat = st.session_state.get("chat", None)
@@ -84,7 +88,7 @@ else:
             expert_knowledge_text_widget.write(st.session_state.system_prompt[st.session_state.language])
             st.success("Extended Expertise")
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
 
     with col1:
         filename = st.text_input("Enter filename for Expert Knowledge:")
@@ -114,18 +118,27 @@ else:
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
+        # Get the available files from the directory
+        expert_files = get_expert_files(os.path.join("content", "expert_knowledge"))
+        if expert_files:
+            selected_file_name = st.selectbox("Select an Predefined Expert Knowledge", [ f for f in expert_files], index=None )
+            # If a file is selected, proceed to load it
+            if selected_file_name:
+                selected_file_path = os.path.join("content", "expert_knowledge", selected_file_name) + ".json"
         
-        #uploaded_file = st.file_uploader("Choose a file to load Expert Knowledge", type="json")
-        #if uploaded_file is not None:
-        #    try:
-        #        data = json.load(uploaded_file)
-        #        st.session_state.system_prompt[st.session_state.language] = data.get("Expert_Knowledge", "")
-        #        st.success("Expert Knowledge loaded!")
-        #        st.write(f"Current Expert Knowledge: {st.session_state.system_prompt[st.session_state.language]}")
-        #    except Exception as e:
-        #        st.error(f"An error occurred: {e}")
-
-    with col3:
+                # Read the selected file and process it
+                try:
+                    with open(selected_file_path, 'r') as file:
+                        data = json.load(file)
+                        # Assuming st.session_state.system_prompt and language are already defined
+                        st.session_state.system_prompt[st.session_state.language] = data.get("Expert_Knowledge", "")
+                        st.success("Expert Knowledge loaded!")
+                        # Display the loaded expert knowledge
+                        expert_knowledge_text_widget.write(st.session_state.system_prompt[st.session_state.language])
+        
+                except Exception as e:
+                    st.error(f"An error occurred: {e}")
+            
         if st.button("Reset Expertise"):
             st.session_state.system_prompt[st.session_state.language] = ""
             expert_knowledge_text_widget.write("")

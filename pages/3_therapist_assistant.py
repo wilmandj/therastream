@@ -57,7 +57,7 @@ else:
         continue_conversation(chat,page)
         display_conversation(conversation_text_widget, page, "AI Therapist")
             
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
 
     with col1:
 
@@ -89,7 +89,6 @@ else:
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
-    with col3:
         if st.button("Reset Conversation"):
             st.session_state.conversation[page][st.session_state.language] = []
             conversation_text_widget.write("")

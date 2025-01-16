@@ -57,40 +57,37 @@ else:
         continue_conversation(chat,page)
         display_conversation(conversation_text_widget, page, "AI Therapy Author")
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
 
     with col1:
         filename = st.text_input("Enter filename for therapy author conversation:")
         if st.button("Save Therapy Author Conversation"):
             if filename:
-                filepath = os.path.join("content", "therapy_author_conversations", f"{filename}_therapy_author_conversation.json")
-                os.makedirs(os.path.dirname(filepath), exist_ok=True)
-                with open(filepath, "w") as f:
-                    json.dump(st.session_state.conversation[page][current_language], f)
-                st.success(f"Therapy author conversation saved to {filepath}!")
-        
-        st.download_button(
-            label="Download Therapy Author Conversation",
-            data=json.dumps(st.session_state.conversation[page][current_language]),
-            file_name="therapy_author_conversation.json",
-            mime="application/json",
-        )
+                # Prepare the content for download
+                conversation_json = json.dumps(st.session_state.conversation[page][current_language])
+                filepath = os.path.join("content", "therapy_author_conversations", f"{filename}_therapist_conversation.json")
+                # Use st.download_button to let users download the prepared file
+                st.download_button(
+                    label="Download Therapy Author Conversation",
+                    data=conversation_json,
+                    file_name=filepath,
+                    mime="application/json",
+                )
+                st.success("Click the download button to save the conversation to your local machine!")
 
     with col2:
         uploaded_file = st.file_uploader("Choose a file to load therapy author conversation", type="json")
         if uploaded_file is not None:
             try:
+                # Clear the existing conversation and load the new one
                 st.session_state.conversation[page][current_language] = json.load(uploaded_file)
                 st.success("Therapy author conversation loaded!")
-                for message in st.session_state.conversation[page][current_language]:
-                    if message["role"] == "user":
-                        st.write(f"You: {message['content']}")
-                    elif message["role"] == "assistant":
-                        st.write(f"Therapy Author: {message['content']}")
+                # Update the displayed conversation
+                conversation_text_widget.write("")
+                display_conversation(conversation_text_widget, page, "AI Therapy Author")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
-    with col3:
         if st.button("Reset Conversation"):
             st.session_state.conversation[page][st.session_state.language] = []
             conversation_text_widget.write("")
