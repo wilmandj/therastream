@@ -49,7 +49,7 @@ else:
             max_size = (max_dimension, max_dimension)
             image.thumbnail(max_size, Image.LANCZOS)  # Use LANCZOS instead of ANTIALIAS
             
-            st.image(image, caption="Uploaded Drawing", use_column_width=True)
+            st.image(image, caption="Uploaded Drawing", use_container_width=True)
     
             # Convert image to base64
             buffered = BytesIO()
