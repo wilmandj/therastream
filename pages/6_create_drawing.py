@@ -3,6 +3,7 @@ from streamlit_drawable_canvas import st_canvas
 import os
 from PIL import Image
 import io
+from utils.session_utils import *
 
 # Set up the page configuration
 st.set_page_config(page_title="Create Drawing", page_icon="🎨")
