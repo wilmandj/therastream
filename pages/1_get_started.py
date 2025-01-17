@@ -11,6 +11,8 @@ def main():
     # Set the page title
     st.set_page_config(page_title="README Viewer", layout="wide")
 
+    initialize_session_state()
+    
     language_toggle = st.sidebar.selectbox("Select Language", ("English", "German"), index=(st.session_state.language!='English'), key='language')
     if language_toggle != st.session_state.language:
         st.session_state.language = language_toggle
