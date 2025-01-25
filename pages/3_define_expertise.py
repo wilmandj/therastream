@@ -52,12 +52,12 @@ else:
     
     with st.form(key='expertise_input'):
         expertise = st.text_area("Enter additional expertise or focus areas for the therapist:")
-        create_expertise = st.button("Create Expertise")
+        create_expertise = st.form_submit_button("Create Expertise")
     
     with st.form(key='feedback_input'):
         feedback = st.text_area("Provide feedback on the current expertise (optional):")
-        improve_expertise = st.button("Improve Expertise")
-        add_to_expertise = st.button("Add to Expertise")
+        improve_expertise = st.form_submit_button("Improve Expertise")
+        add_to_expertise = st.form_submit_button("Add to Expertise")
     
     if create_expertise and expertise and not st.session_state.ai_created_expertise:
         st.session_state.system_prompt[st.session_state.language] = f"You are an empathetic and knowledgeable therapist with expertise in {expertise}. Provide thoughtful and helpful responses."
