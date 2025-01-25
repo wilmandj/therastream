@@ -50,26 +50,31 @@ else:
     else:
         expert_knowledge_text_widget.write(st.session_state.system_prompt[st.session_state.language])
     
-    expertise = st.text_area("Enter additional expertise or focus areas for the therapist:")
-    feedback = st.text_area("Provide feedback on the current expertise (optional):")
-
-    if expertise and not st.session_state.ai_created_expertise:
+    with st.form(key='expertise_input'):
+        expertise = st.text_area("Enter additional expertise or focus areas for the therapist:")
+        create_expertise = st.button("Create Expertise")
+    
+    with st.form(key='feedback_input'):
+        feedback = st.text_area("Provide feedback on the current expertise (optional):")
+        improve_expertise = st.button("Improve Expertise")
+        add_to_expertise = st.button("Add to Expertise")
+    
+    if create_expertise and expertise and not st.session_state.ai_created_expertise:
         st.session_state.system_prompt[st.session_state.language] = f"You are an empathetic and knowledgeable therapist with expertise in {expertise}. Provide thoughtful and helpful responses."
 
-    if st.button("Create Expertise") and expertise:
+    if create_expertise and expertise:
         question = f"Suggest a system prompt for expertise in {expertise}."
         ai_message = chat([
             SystemMessage(content="Suggest a system prompt for expertise in this topic."),
             HumanMessage(content=question)
         ])
         st.session_state.system_prompt[st.session_state.language] = ai_message.content
-        #st.write(f"Suggested Expertise: {ai_message.content}")
         expert_knowledge_text_widget.write(st.session_state.system_prompt[st.session_state.language])
         st.session_state.ai_created_expertise = True
         st.success("Created Expertise")
     
     if st.session_state.ai_created_expertise:
-        if st.button("Improve Expertise") and feedback:
+        if improve_expertise and feedback:
             improve_question = f"Given the feedback '{feedback}', improve the expertise: {st.session_state.system_prompt[st.session_state.language]}"
             ai_message = chat([
                 SystemMessage(content=st.session_state.system_prompt[st.session_state.language]),
@@ -81,7 +86,7 @@ else:
             st.success("Updated Expertise")
 
         
-        if st.button("Add to Expertise") and feedback:
+        if add_to_expertise and feedback:
             add_question = f"Based on the feedback '{feedback}', suggest additional expertise to complement: {st.session_state.system_prompt[st.session_state.language]}"
             ai_message = chat([
                 SystemMessage(content=st.session_state.system_prompt[st.session_state.language]),
