@@ -33,7 +33,7 @@ else:
 
     # Step 1: Upload an image
     uploaded_file = st.file_uploader("Choose an image file", type=['jpg', 'jpeg', 'png', 'bmp', 'gif'])
-
+    
     # Step 2: Set maximum dimension for resizing
     max_dimension = st.number_input("Set maximum dimension for resizing (default is 512)", min_value=1, value=512)
 
@@ -48,22 +48,26 @@ else:
                 image.save(img_bytes, format='JPEG')
                 img_bytes.seek(0)  # Rewind the file pointer to the beginning
                 image = Image.open(img_bytes)
-        
+                st.session_state.image = image
+        except Exception as e:
+            st.error(f"Error processing uploaded image {uploaded_file}: {e}")
+
+    if st.session_state.image is not None:
+        try:
+            image = st.session_state.image
             # Resize image while maintaining aspect ratio
             max_size = (max_dimension, max_dimension)
             image.thumbnail(max_size, Image.LANCZOS)  # Use LANCZOS instead of ANTIALIAS
-
             try:
                 st.image(image, caption="Uploaded Drawing", use_container_width=True)
             except:
                 # old version:
                 st.image(image, caption="Uploaded Drawing", use_column_width=True)
-                
             # Convert image to base64
             buffered = BytesIO()
             image.save(buffered, format="JPEG")
             base64_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
-    
+        
             # Step 2: Provide a caption/description
             caption = st.text_input("Provide a caption or description for the image:")
             
@@ -115,4 +119,4 @@ else:
             st.error(f"Error processing the image: {e}")
     
     else:
-        st.write("Please upload an image file to proceed.")
+        st.write("Please upload or create an image to proceed.")

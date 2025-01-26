@@ -20,6 +20,9 @@ def initialize_session_state():
     if 'chat_input' not in st.session_state:
         st.session_state.chat_input = ""
 
+    if 'image' not in st.session_state:
+        st.session_state.image = None
+
 def bold(string):
     return f"**{string}**" 
 

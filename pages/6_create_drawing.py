@@ -39,21 +39,28 @@ canvas_result = st_canvas(
 
 # Save the drawing as an image file
 filename = st.text_input("Enter filename for image:")
-if canvas_result.image_data is not None and filename:
+
+if canvas_result.image_data is not None:
+    
     # Convert the drawing to an image
     image = Image.fromarray(canvas_result.image_data)
-    buffer = io.BytesIO()
-    image.save(buffer,format="PNG")
-    byte_data = buffer.getvalue()
-    filepath = os.path.join("content", "images", filename) +  '.png'
-    # Use st.download_button to let users download the prepared file
-    st.download_button(
-        label="Download Image",
-        data=byte_data,
-        file_name=filepath,
-        mime="application/json",
-    )
-    st.success("Click the download button to save the image to your local machine!")
+    image = image.convert("RGB")  # Convert to RGB before saving as JPEG
+    st.session_state.image = image
+    buffer = io.BytesIO()    
+    image.save(buffer,format="JPEG")
+    image_byte_data = buffer.getvalue()
+    
+    if filename:
+        filepath = os.path.join("content", "images", filename) +  '.png'
+        # Use st.download_button to let users download the prepared file
+        st.download_button(
+            label="Download Image",
+            data=image_byte_data,
+            file_name=filepath,
+            mime="application/json",
+        )
+        st.success("Click the download button to save the image to your local machine!")
+
 else:
     st.error("No drawing to save!")
 
